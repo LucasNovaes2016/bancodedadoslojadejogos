@@ -151,7 +151,7 @@ PROCEDURE jogohasgenero_gatilho();
 
 =================================================================================
 
-/* Trigger para as regras de negócido do estoque */
+/* Regras de negócio para o estoque */
 
 CREATE FUNCTION estoque_gatilho() RETURNS trigger AS $estoque_gatilho$
 BEGIN
@@ -164,7 +164,87 @@ END;
 $estoque_gatilho$ LANGUAGE plpgsql;
 
 /* Associando o gatilho ao evento de Insert ou Update*/
-CREATE TRIGGER estoque_Insert_Or_Update BEFORE INSERT OR UPDATE 
+CREATE TRIGGER estoque_Insert BEFORE INSERT
 ON Estoque
 FOR EACH ROW EXECUTE 
 PROCEDURE estoque_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido do carrinho de compras */
+
+CREATE FUNCTION carrinhodecompras_gatilho() RETURNS trigger AS $carrinhodecompras_gatilho$
+BEGIN
+   -- Verificar se a data é nula
+   IF NEW.dataCarrinho IS NULL THEN
+      RAISE EXCEPTION 'O data do carrinho de compras não pode ser nula';
+   END IF;
+RETURN NEW;
+END;
+$carrinhodecompras_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER carrinhodecompras_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON carrinhoDeCompras
+FOR EACH ROW EXECUTE 
+PROCEDURE carrinhodecompras_gatilho();
+
+=================================================================================
+
+ /* Regras de negócio para a compra (insert or update) */
+
+CREATE FUNCTION compra_insert_or_update_gatilho() RETURNS trigger AS $compra_insert_or_update__gatilho$
+BEGIN
+   -- Verificar se a quantidade do produto é nula
+   IF NEW.quantidade IS NULL THEN
+      RAISE EXCEPTION 'A quantidade do produto não pode ser nula!';
+   END IF;
+   
+   IF (NEW.quantidade <= 0) THEN
+      RAISE EXCEPTION 'A quantidade comprada não pode ser menor que 1';
+   END IF;
+  
+   IF (NEW.quantidade > (SELECT quantidade FROM Estoque WHERE idJogo = NEW.idJogo)) THEN
+      RAISE EXCEPTION 'Quantidade de produtos indisponivel em nosso estoque. Tente comprar menos 
+						produtos do mesmo tipo';
+   END IF;
+  
+  IF (TG_OP = 'INSERT') THEN
+      UPDATE Estoque
+      SET quantidade = quantidade - NEW.quantidade
+      WHERE Estoque.idJogo = NEW.idJogo;
+      RETURN NEW;
+  END IF;
+  IF (TG_OP = 'UPDATE') THEN
+	  UPDATE Estoque
+	  SET quantidade = quantidade + OLD.quantidade - NEW.quantidade 
+	  WHERE estoque.idJogo = NEW.idJogo;
+	  RETURN NEW;
+  END IF;
+END;
+$compra_insert_or_update__gatilho$ LANGUAGE plpgsql;
+ 
+/* Associando o gatilho ao evento de Insert ou Update*/
+CREATE TRIGGER compra_insert_or_update_ BEFORE INSERT OR UPDATE 
+ON Compra
+FOR EACH ROW EXECUTE 
+PROCEDURE compra_insert_or_update_gatilho();
+
+===================================================================================
+
+/* Regras de negócio para a compra (delete) */
+
+CREATE FUNCTION compra_delete_gatilho() RETURNS trigger AS $compra_delete_gatilho$
+BEGIN
+	UPDATE Estoque
+		SET quantidade  = quantidade + OLD.quantidade
+		WHERE estoque.idJogo = OLD.idJogo;   
+		RETURN OLD;
+END;
+$compra_delete_gatilho$ LANGUAGE plpgsql;
+ 
+/* Associando o gatilho ao evento de Insert ou Update*/
+CREATE TRIGGER compra_delete BEFORE DELETE
+ON Compra
+FOR EACH ROW EXECUTE 
+PROCEDURE compra_delete_gatilho();
