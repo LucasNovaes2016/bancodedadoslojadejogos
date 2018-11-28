@@ -17,3 +17,40 @@ FROM Plataforma
 INNER JOIN Jogo ON Plataforma.idPlataforma = Jogo.idPlataforma
 GROUP BY Plataforma.nomePlataforma
 ORDER BY COUNT(Jogo.idJogo) DESC;
+
+/* Usuários e seus emails (sem duplicações) */
+
+create view vw_usuarios_emails as 
+SELECT Cliente.nomeCliente, string_agg(Emails.enderecoEmail, ', ') AS Emails
+FROM Cliente
+INNER JOIN Emails ON Cliente.idCliente = Emails.idCliente
+GROUP BY Cliente.nomeCliente
+ORDER BY Cliente.nomeCliente ASC;
+
+/* Lista de jogos por plataforma */
+
+create view vw_jogos_plataforma as 
+SELECT Plataforma.nomePlataforma, nomeJogo, Jogo.anoLancamento, desenvolvedora, descricao, preco 
+FROM JOGO
+INNER JOIN Plataforma ON Jogo.idPlataforma = Plataforma.idPlataforma;
+
+/* Lista de compras por cliente */
+
+create view vw_compras_cliente as 
+SELECT Cliente.idCliente, Jogo.nomeJogo AS Jogo, Compra.quantidade, (Jogo.preco * Compra.quantidade) AS "Total a pagar", 
+CarrinhoDeCompras.idCarrinhoDeCompras AS "Carrinho de Compras (CODIGO)"
+FROM Cliente
+INNER JOIN CarrinhoDeCompras ON Cliente.idCliente = CarrinhoDeCompras.idCliente
+INNER JOIN Compra ON CarrinhoDeCompras.idCarrinhoDeCompras = Compra.idCarrinhoDeCompras
+INNER JOIN Jogo ON Compra.idJogo = Jogo.idJogo;
+
+/* Lista de carrinhos por cliente */
+
+create view vw_carrinhos_cliente as 
+SELECT Cliente.idCliente, CarrinhoDeCompras.idCarrinhoDeCompras AS "Carrinho de Compras (CODIGO)", SUM(Compra.quantidade) AS "Qtd de Jogos", 
+SUM((Jogo.preco * Compra.quantidade)) AS "dinheiro gasto"
+FROM Cliente
+INNER JOIN CarrinhoDeCompras ON Cliente.idCliente = CarrinhoDeCompras.idCliente
+INNER JOIN Compra ON CarrinhoDeCompras.idCarrinhoDeCompras = Compra.idCarrinhoDeCompras
+INNER JOIN Jogo ON Compra.idJogo = Jogo.idJogo
+GROUP BY CarrinhoDeCompras.idCarrinhoDeCompras, Cliente.idCliente;
