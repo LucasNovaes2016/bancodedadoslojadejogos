@@ -1,0 +1,58 @@
+/* Os usuarios e seus emails (sem duplicação de linhas / com concatenação de emails) */
+
+SELECT Cliente.nomeCliente, string_agg(Emails.enderecoEmail, ', ') AS Emails
+FROM Cliente
+INNER JOIN Emails ON Cliente.idCliente = Emails.idCliente
+GROUP BY Cliente.nomeCliente
+ORDER BY Cliente.nomeCliente ASC;
+
+/* Os usuarios e seus emails (com duplicação de linhas / sem concatenação de emails) */
+
+SELECT Cliente.nomeCliente, Emails.enderecoEmail
+FROM Cliente
+INNER JOIN Emails ON Emails.idCliente = Cliente.idCliente;
+
+/* Tabela com todas as informações dos jogos (incluindo o nome da plataforma e o(s) gênero(s) */
+
+SELECT Jogo.nomeJogo, Jogo.anoLancamento, Plataforma.nomePlataforma, Jogo.desenvolvedora,
+string_agg(Genero.nomeGenero, ', ') AS "gênero(s)", Jogo.descricao, Jogo.preco
+FROM JOGO
+INNER JOIN JogoHasGenero ON Jogo.idJogo = JogoHasGenero.idJogo
+INNER JOIN Genero ON JogoHasGenero.idGenero = Genero.idGenero
+INNER JOIN Plataforma ON Jogo.idPlataforma = Plataforma.idPlataforma
+GROUP BY Jogo.idJogo, Plataforma.idPlataforma;
+
+/* Os jogos de uma plataforma específica */
+
+SELECT * FROM Jogo
+INNER JOIN Plataforma ON Jogo.idPlataforma = Plataforma.idPlataforma
+WHERE Plataforma.nomePlataforma = 'Xbox'; /* Coloque a plataforma desejada no lugar de 'Xbox' */
+
+/* Quantidade de jogos por plataforma */
+
+SELECT Plataforma.nomePlataforma AS "Plataforma", COUNT(Jogo.idJogo) AS "Quantidade de Jogos"
+FROM Plataforma
+INNER JOIN Jogo ON Plataforma.idPlataforma = Jogo.idPlataforma
+GROUP BY Plataforma.nomePlataforma
+ORDER BY COUNT(Jogo.idJogo) DESC;
+
+/* Historico de compras de um cliente específico */
+
+SELECT Jogo.nomeJogo AS Jogo, Compra.quantidade, (Jogo.preco * Compra.quantidade) AS "Total a pagar", 
+CarrinhoDeCompras.idCarrinhoDeCompras AS "Carrinho de Compras (CODIGO)"
+FROM Cliente
+INNER JOIN CarrinhoDeCompras ON Cliente.idCliente = CarrinhoDeCompras.idCliente
+INNER JOIN Compra ON CarrinhoDeCompras.idCarrinhoDeCompras = Compra.idCarrinhoDeCompras
+INNER JOIN Jogo ON Compra.idJogo = Jogo.idJogo
+WHERE Cliente.idCliente = 1; /* Substitua '1' pelo id do cliente do qual se deseja obter o historico de compras */
+
+/* Historico de Carrinho de Compras com o total gasto e a quantidade de jogos comprada em cada carrinho */
+
+SELECT CarrinhoDeCompras.idCarrinhoDeCompras AS "Carrinho de Compras (CODIGO)", SUM(Compra.quantidade) AS "Qtd de Jogos", 
+SUM((Jogo.preco * Compra.quantidade)) AS "dinheiro gasto"
+FROM Cliente
+INNER JOIN CarrinhoDeCompras ON Cliente.idCliente = CarrinhoDeCompras.idCliente
+INNER JOIN Compra ON CarrinhoDeCompras.idCarrinhoDeCompras = Compra.idCarrinhoDeCompras
+INNER JOIN Jogo ON Compra.idJogo = Jogo.idJogo
+WHERE Cliente.idCliente = 1
+GROUP BY CarrinhoDeCompras.idCarrinhoDeCompras; /* Substitua '1' pelo id do cliente do qual se deseja obter o historico de compras */

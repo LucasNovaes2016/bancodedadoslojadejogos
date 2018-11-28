@@ -1,0 +1,170 @@
+/* Trigger para as regras de negócio do jogo */
+
+/* criando trigger*/
+CREATE FUNCTION jogo_gatilho() RETURNS trigger AS $jogo_gatilho$
+BEGIN
+   -- Verificar se nome do jogo é nulo
+   IF NEW.nomeJogo IS NULL THEN
+      RAISE EXCEPTION 'O nome do jogo não pode ser nulo';
+   END IF;
+   -- Verifica se o nome do jogo é muito grande
+   IF (LENGTH(NEW.nomeJogo) > 128) THEN
+      RAISE EXCEPTION 'O nome do jogo deve ter, no máximo, 128 caracteres';
+   END IF;
+   -- Verifica se o preço do jogo é nulo
+   IF NEW.preco IS NULL THEN
+   RAISE EXCEPTION 'O preço do jogo não pode ser nulo';
+   END IF;
+   -- Verifica se o preço do jogo está na faixa correta
+   IF (NEW.preco <= 0 OR NEW.preco >=1024) THEN
+   RAISE EXCEPTION 'O preço do jogo deve estar entre 0 e 1024 reais';
+   END IF;
+RETURN NEW;
+END;
+$jogo_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER jogo_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Jogo
+FOR EACH ROW EXECUTE 
+PROCEDURE jogo_gatilho();
+
+===================================================================================
+
+/* Trigger para as regras de negócio do email */
+
+CREATE FUNCTION emails_gatilho() RETURNS trigger AS $emails_gatilho$
+BEGIN
+   -- Verificar se endereço de email é nulo
+   IF NEW.enderecoEmail IS NULL THEN
+      RAISE EXCEPTION 'O endereço de email não pode ser vazio';
+   END IF;
+   -- Verifica se o endereço de email é muito grande
+   IF (LENGTH(NEW.enderecoEmail) > 128) THEN
+      RAISE EXCEPTION 'O endereço de email deve ter, no máximo, 128 caracteres';
+   END IF;
+   -- Verifica se o endereço de email é valido
+   IF (NEW.enderecoEmail LIKE '%@%' = false) THEN
+   RAISE EXCEPTION 'Endereço de email invalido';
+   END IF;
+RETURN NEW;
+END;
+$emails_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER emails_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Emails
+FOR EACH ROW EXECUTE 
+PROCEDURE emails_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido do cliente */
+
+CREATE FUNCTION cliente_gatilho() RETURNS trigger AS $cliente_gatilho$
+BEGIN
+   -- Verificar se o nome do cliente é vazio
+   IF NEW.nomeCliente IS NULL THEN
+      RAISE EXCEPTION 'O nome do cliente não pode ser vazio';
+   END IF;
+   -- Verifica se o nome do cliente é muito grande
+   IF (LENGTH(NEW.nomeCliente) > 128) THEN
+      RAISE EXCEPTION 'O nome do cliente deve ter, no máximo, 128 caracteres';
+   END IF;
+RETURN NEW;
+END;
+$cliente_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER cliente_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Cliente
+FOR EACH ROW EXECUTE 
+PROCEDURE cliente_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido da plataforma */
+
+CREATE FUNCTION plataforma_gatilho() RETURNS trigger AS $plataforma_gatilho$
+BEGIN
+   -- Verificar se o nome da plataforma é vazio
+   IF NEW.nomePlataforma IS NULL THEN
+      RAISE EXCEPTION 'O nome da plataforma não pode ser vazio';
+   END IF;
+   -- Verifica se o nome da plataforma é muito grande
+	   IF (LENGTH(NEW.nomePlataforma) > 64) THEN
+      RAISE EXCEPTION 'O nome da plataforma deve ter, no máximo, 64 caracteres';
+   END IF;
+RETURN NEW;
+END;
+$plataforma_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER plataforma_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Plataforma
+FOR EACH ROW EXECUTE 
+PROCEDURE plataforma_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido do gênero */
+
+CREATE FUNCTION genero_gatilho() RETURNS trigger AS $genero_gatilho$
+BEGIN
+   -- Verificar se o nome do genero é vazio
+   IF NEW.nomeGenero IS NULL THEN
+      RAISE EXCEPTION 'O nome do genero não pode ser vazio';
+   END IF;
+   -- Verifica se o nome  do genero é muito grande
+	   IF (LENGTH(NEW.nomeGenero) > 64) THEN
+      RAISE EXCEPTION 'O nome do genero deve ter, no máximo, 64 caracteres';
+   END IF;
+RETURN NEW;
+END;
+$genero_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER genero_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Genero
+FOR EACH ROW EXECUTE 
+PROCEDURE genero_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido de jogohasgenero */
+
+CREATE FUNCTION jogohasgenero_gatilho() RETURNS trigger AS $jogohasgenero_gatilho$
+BEGIN
+   -- Verifica se a nova relação jogo gênero já foi inclusa na tabela
+   IF EXISTS(SELECT idJogo, idGenero FROM JogoHasGenero WHERE idJogo = NEW.idJogo AND idGenero = NEW.idGenero) THEN
+   RAISE EXCEPTION 'A relação jogo-gênero já foi inserida na tabela';
+   END IF;
+RETURN NEW;
+END;
+$jogohasgenero_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update */
+CREATE TRIGGER jogohasgenero_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Jogohasgenero
+FOR EACH ROW EXECUTE 
+PROCEDURE jogohasgenero_gatilho();
+
+=================================================================================
+
+/* Trigger para as regras de negócido do estoque */
+
+CREATE FUNCTION estoque_gatilho() RETURNS trigger AS $estoque_gatilho$
+BEGIN
+   -- Verifica se o jogo já existe no estoque
+   IF EXISTS(SELECT idJogo FROM Estoque WHERE idJogo = NEW.idJogo) THEN
+   RAISE EXCEPTION 'O jogo adicionado já se encontra no estoque.';
+   END IF;
+RETURN NEW;
+END;
+$estoque_gatilho$ LANGUAGE plpgsql;
+
+/* Associando o gatilho ao evento de Insert ou Update*/
+CREATE TRIGGER estoque_Insert_Or_Update BEFORE INSERT OR UPDATE 
+ON Estoque
+FOR EACH ROW EXECUTE 
+PROCEDURE estoque_gatilho();

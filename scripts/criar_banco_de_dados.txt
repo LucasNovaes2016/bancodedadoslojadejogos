@@ -1,0 +1,66 @@
+CREATE TABLE Plataforma (
+  idPlataforma SERIAL NOT NULL,
+  nomePlataforma VARCHAR NULL,
+  anoLancamento INTEGER NULL,
+  PRIMARY KEY(idPlataforma)
+);
+
+CREATE TABLE Genero (
+  idGenero SERIAL NOT NULL,
+  nomeGenero VARCHAR NULL,
+  PRIMARY KEY(idGenero)
+);
+
+CREATE TABLE Jogo (
+  idJogo SERIAL NOT NULL,
+  nomeJogo VARCHAR NULL,
+  anoLancamento INTEGER NULL,
+  desenvolvedora VARCHAR NULL,
+  idPlataforma INTEGER REFERENCES Plataforma,
+  descricao TEXT NULL,
+  preco FLOAT NULL,
+  PRIMARY KEY(idJogo)
+);
+
+CREATE TABLE JogoHasGenero (
+  idJogoHasGenero SERIAL NOT NULL,
+  idJogo INTEGER REFERENCES Jogo,
+  idGenero INTEGER REFERENCES Genero,
+  PRIMARY KEY(idJogoHasGenero)
+);
+
+CREATE TABLE Estoque (
+  idEstoque SERIAL NOT NULL,
+  idJogo INTEGER REFERENCES Jogo,
+  quantidade INTEGER NULL,
+  PRIMARY KEY(idEstoque)
+);
+
+CREATE TABLE Cliente (
+  idCliente SERIAL NOT NULL,
+  nomeCliente VARCHAR NULL,
+  dataNascimento DATE NULL,
+  PRIMARY KEY(idCliente)
+);
+
+CREATE TABLE Emails (
+  idEmails SERIAL NOT NULL,
+  enderecoEmail VARCHAR NULL,
+  idCliente INTEGER REFERENCES Cliente,
+  PRIMARY KEY(idEmails)
+);
+
+CREATE TABLE CarrinhoDeCompras (
+  idCarrinhoDeCompras SERIAL NOT NULL,
+  idCliente INTEGER REFERENCES Cliente,
+  dataCarrinhoDeCompras DATE NULL,
+  PRIMARY KEY(idCarrinhoDeCompras)
+);
+
+CREATE TABLE Compra (
+  idCompra SERIAL NOT NULL,
+  idJogo INTEGER REFERENCES Jogo,
+  idCarrinhoDeCompras INTEGER REFERENCES CarrinhoDeCompras,
+  quantidade INTEGER NULL,
+  PRIMARY KEY(idCompra)
+);

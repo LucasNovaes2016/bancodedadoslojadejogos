@@ -1,0 +1,19 @@
+/* Produtos da loja com todas as suas informações */
+
+create view vw_catalogo01 as 
+SELECT Jogo.nomeJogo, Jogo.anoLancamento, Plataforma.nomePlataforma, Jogo.desenvolvedora,
+string_agg(Genero.nomeGenero, ', ') AS "gênero(s)", Jogo.descricao, Jogo.preco
+FROM JOGO
+INNER JOIN JogoHasGenero ON Jogo.idJogo = JogoHasGenero.idJogo
+INNER JOIN Genero ON JogoHasGenero.idGenero = Genero.idGenero
+INNER JOIN Plataforma ON Jogo.idPlataforma = Plataforma.idPlataforma
+GROUP BY Jogo.idJogo, Plataforma.idPlataforma;
+
+/* Quantidade de jogos por plataforma */
+
+create view vw_plataforma_qtd01 as 
+SELECT Plataforma.nomePlataforma AS "Plataforma", COUNT(Jogo.idJogo) AS "Quantidade de Jogos"
+FROM Plataforma
+INNER JOIN Jogo ON Plataforma.idPlataforma = Jogo.idPlataforma
+GROUP BY Plataforma.nomePlataforma
+ORDER BY COUNT(Jogo.idJogo) DESC;
