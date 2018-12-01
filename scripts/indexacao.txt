@@ -1,0 +1,59 @@
+/* Indexes para a tabela Cliente */
+
+CREATE INDEX index_hash_cliente ON Cliente USING
+HASH (nomeUsuario);
+
+CREATE INDEX index_btree_cliente ON Cliente USING
+btree (idCliente);
+
+/* Indexes para a tabela emails */
+
+CREATE INDEX index_hash_emails ON Emails USING
+HASH (enderecoEmail);
+
+CREATE INDEX index_btree_emails ON Emails USING
+btree (idEmails);
+
+/* Indexes para a tabela genero */
+
+CREATE INDEX index_hash_genero ON Genero USING
+HASH (nomeGenero);
+
+CREATE INDEX index_btree_genero ON Genero USING
+btree (idGenero);
+
+/* Indexes para a tabela jogo */
+
+CREATE INDEX index_hash_jogo ON Jogo USING
+HASH (idJogoLiteral);
+
+CREATE INDEX index_btree_jogo ON Jogo USING
+btree (idJogo);
+
+/* Indexes para a tabela Plataforma */
+
+CREATE INDEX index_hash_plataforma ON Plataforma USING
+HASH (nomePlataforma);
+
+CREATE INDEX index_btree_plataforma ON Plataforma USING
+btree (idPlataforma);
+
+/* Index para a tabela Compra */
+
+CREATE INDEX index_btree_compra ON Compra USING
+btree (idCompra);
+
+/* Index para a tabela estoque */
+
+CREATE INDEX index_btree_estoque ON Estoque USING
+btree (idEstoque);
+
+/* Index para a tabela JogoHasGenero */
+
+CREATE INDEX index_btree_jogo_has_genero ON JogoHasGenero USING
+btree (idJogoHasGenero);
+
+/* Index para a tabela CarrinhoDeCompras */
+
+CREATE INDEX index_btree_carrinho_de_compras ON CarrinhoDeCompras USING
+btree (idCarrinhoDeCompras);

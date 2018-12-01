@@ -27,25 +27,25 @@ INSERT INTO Genero (nomeGenero) VALUES
 
 /* Inserindo dados na tabela Jogo */ 
 
-INSERT INTO Jogo (nomeJogo, anoLancamento, desenvolvedora, idPlataforma, descricao, preco) VALUES
-('Gran Turismo 4', 2004, 'SCEA', 1, 'Gran Turismo 4 (conhecido também como GT4) é um jogo eletrônico de corrida e gerenciamento de carros produzido pela SCEA (Sony Computer Entertainment America) e pela Polyphony Digital para PlayStation 2 e lançado em 30 de dezembro de 2003, no Japão e Hong Kong (NTSC-J), 24 de fevereiro de 2004, nos Estados Unidos (NTSC-U/C), e de 10 de março de 2004, na Europa (PAL), e já foi adicionado a lista de jogos da série Greatest Hits, que é uma re-edição para os jogos mais vendidos nos EUA.', 19.99),
-('Bully', 2006, 'Rockstar Vancouver', 1, 'Bully (que também é conhecido como Canis Canem Edit na versão PAL para o PlayStation 2 lançada fora da América do Norte) é um jogo eletrônico de ação-aventura em terceira pessoa, lançado pela Rockstar para o PlayStation 2 em 17 de outubro de 2006, na América do Norte, em 25 de outubro de 2006, no Reino Unido, 27 de outubro de 2006, na Austrália, e em 24 de Julho de 2008, no Japão. Uma versão de Xbox foi planejada, porém acabou sendo cancelada por motivos não-revelados.' , 19.99),
-('Final Fantasy X', 2001, 'SquareSoft', 1, 'Final Fantasy X é um jogo eletrônico de RPG desenvolvido e publicado pela SquareSoft. Ele é o décimo título principal da série Final Fantasy e foi originalmente lançado como um exclusivo para PlayStation 2 em 2001.' , 19.99),
-('God of War II', 2007, 'Santa Monica Studio', 1, 'God of War II é um jogo eletrônico de ação-aventura hack and slash desenvolvido pela Santa Monica Studio e publicado pela Sony Computer Entertainment (SCE). Lançado pela primeira vez para o PlayStation 2 em 13 de março de 2007, é o segundo jogo da franquia God of War, e o sexto em ordem cronológica, sendo a continuação de God of War de 2005.', 19.99),
-('The Last of Us', 2013, 'Naughty Dog', 2, 'The Last of Us é um jogo eletrônico de ação-aventura e sobrevivência desenvolvido pela Naughty Dog e publicado pela Sony Computer Entertainment. Ele foi lançado exclusivamente para PlayStation 3 em 14 de junho de 2013.', 39.99),
-('Gran Turismo 5', 2010, 'Pylophony Digital', 2, 'Gran Turismo 5 é o quinto jogo da série Gran Turismo, desenvolvido pela Polyphony Digital. Ele foi a primeira das principais séries de recurso à penúltima geração da consola Sony PlayStation, a PlayStation 3.', 39.99),
-('Spider-Man', 2018, 'Insomniac Games', 3, 'Spider-Man é um jogo eletrônico de ação-aventura baseado no super-herói Homem-Aranha da Marvel Comics, desenvolvido pela Insomniac Games e publicado pela Sony Interactive Entertainment para o PlayStation 4.', 49.99),
-('FIFA 19', 2018, 'EA Sports', 3, 'FIFA 19 é um jogo eletrônico de futebol desenvolvido e publicado pela EA Sports, que foi lançado mundialmente em 28 de setembro de 2018. Este é o vigésimo sexto título principal da série FIFA e o terceiro a usar o mecanismo de jogo da Frostbite para Xbox One, PS4 e PC.', 49.99),
-('Crazy Taxi 3: High Roller', 2002, 'Hitmaker', 4, 'Crazy Taxi 3: High Roller is the third video game in the Crazy Taxi series, and was released for the Xbox and Microsoft Windows, with also an arcade release under the name Crazy Taxi: High Roller for the Chihiro game board.', 24.99),
-('Halo 3', 2007, 'Bungie', 5, 'Crazy Taxi 3: High Roller is the third video game in the Crazy Taxi series, and was released for the Xbox and Microsoft Windows, with also an arcade release under the name Crazy Taxi: High Roller for the Chihiro game board.', 39.99),
-('Fallout 3', 2008, 'Bethesda Game Studios', 5, 'Fallout 3 é uma continuação do jogo de RPG eletrônico Fallout. Fallout 3, desenvolvido pela companhia de jogos de videogames e computador americana Bethesda Softworks, foi lançado em 28 de Outubro de 2008 para PC, Xbox 360 e PlayStation 3.', 39.99),
-('FIFA 19', 2018, 'EA Sports', 6, 'FIFA 19 é um jogo eletrônico de futebol desenvolvido e publicado pela EA Sports, que foi lançado mundialmente em 28 de setembro de 2018. Este é o vigésimo sexto título principal da série FIFA e o terceiro a usar o mecanismo de jogo da Frostbite para Xbox One, PS4 e PC.', 49.99),
-('Super Mario Galaxy', 2007, 'Nintendo Entertainment Analysis & Development', 7, 'Super Mario Galaxy é um jogo eletrônico de plataforma desenvolvido pela Nintendo Entertainment Analysis & Development e publicado pela Nintendo. Ele foi lançado exclusivamente para Wii em novembro de 2007.', 19.99),
-('Super Mario Galaxy 2', 2010, 'Nintendo Entertainment Analysis & Development', 7, 'Super Mario Galaxy 2 é um jogo eletrônico do gênero de plataforma que foi desenvolvido e publicado pela Nintendo para o console Wii.', 19.99),
-('Splatoon', 2015, 'Nintendo EAD', 8, 'Splatoon é um jogo de Vídeo-Game de tiro em terceira pessoa lançado pela Nintendo para Wii U em maio de 2015.', 29.99),
-('Splatoon 2', 2017, 'Nintendo EAD', 9, 'Splatoon 2 é um jogo eletrônico de tiro em terceira pessoa desenvolvido pela Nintendo Entertainment Planning & Development e publicado pela Nintendo para o Nintendo Switch.', 39.99),
-('World of Warcraft', 2004, 'Blizzard Entertainment', 10, 'World of Warcraft é um jogo on-line, (MMORPG) da produtora Blizzard lançado em 2004.', 19.99),
-('The Sims 4', 2015, 'Maxis', 10, 'The Sims 4 (Os Sims 4, em Portugal) é o quarto título da franquia de jogos eletrônicos de simulação de vida The Sims, desenvolvido pela Maxis e The Sims Studio, e publicado pela Electronic Arts.', 39.99);
+INSERT INTO Jogo (idJogoLiteral, nomeJogo, anoLancamento, desenvolvedora, idPlataforma, descricao, preco) VALUES
+('PS20000001', 'Gran Turismo 4', 2004, 'SCEA', 1, 'Gran Turismo 4 (conhecido também como GT4) é um jogo eletrônico de corrida e gerenciamento de carros produzido pela SCEA (Sony Computer Entertainment America) e pela Polyphony Digital para PlayStation 2 e lançado em 30 de dezembro de 2003, no Japão e Hong Kong (NTSC-J), 24 de fevereiro de 2004, nos Estados Unidos (NTSC-U/C), e de 10 de março de 2004, na Europa (PAL), e já foi adicionado a lista de jogos da série Greatest Hits, que é uma re-edição para os jogos mais vendidos nos EUA.', 19.99),
+('PS20000002', 'Bully', 2006, 'Rockstar Vancouver', 1, 'Bully (que também é conhecido como Canis Canem Edit na versão PAL para o PlayStation 2 lançada fora da América do Norte) é um jogo eletrônico de ação-aventura em terceira pessoa, lançado pela Rockstar para o PlayStation 2 em 17 de outubro de 2006, na América do Norte, em 25 de outubro de 2006, no Reino Unido, 27 de outubro de 2006, na Austrália, e em 24 de Julho de 2008, no Japão. Uma versão de Xbox foi planejada, porém acabou sendo cancelada por motivos não-revelados.' , 19.99),
+('PS20000003', 'Final Fantasy X', 2001, 'SquareSoft', 1, 'Final Fantasy X é um jogo eletrônico de RPG desenvolvido e publicado pela SquareSoft. Ele é o décimo título principal da série Final Fantasy e foi originalmente lançado como um exclusivo para PlayStation 2 em 2001.' , 19.99),
+('PS20000004', 'God of War II', 2007, 'Santa Monica Studio', 1, 'God of War II é um jogo eletrônico de ação-aventura hack and slash desenvolvido pela Santa Monica Studio e publicado pela Sony Computer Entertainment (SCE). Lançado pela primeira vez para o PlayStation 2 em 13 de março de 2007, é o segundo jogo da franquia God of War, e o sexto em ordem cronológica, sendo a continuação de God of War de 2005.', 19.99),
+('PS30000001', 'The Last of Us', 2013, 'Naughty Dog', 2, 'The Last of Us é um jogo eletrônico de ação-aventura e sobrevivência desenvolvido pela Naughty Dog e publicado pela Sony Computer Entertainment. Ele foi lançado exclusivamente para PlayStation 3 em 14 de junho de 2013.', 39.99),
+('PS30000002', 'Gran Turismo 5', 2010, 'Pylophony Digital', 2, 'Gran Turismo 5 é o quinto jogo da série Gran Turismo, desenvolvido pela Polyphony Digital. Ele foi a primeira das principais séries de recurso à penúltima geração da consola Sony PlayStation, a PlayStation 3.', 39.99),
+('PS40000001', 'Spider-Man', 2018, 'Insomniac Games', 3, 'Spider-Man é um jogo eletrônico de ação-aventura baseado no super-herói Homem-Aranha da Marvel Comics, desenvolvido pela Insomniac Games e publicado pela Sony Interactive Entertainment para o PlayStation 4.', 49.99),
+('PS40000002', 'FIFA 19', 2018, 'EA Sports', 3, 'FIFA 19 é um jogo eletrônico de futebol desenvolvido e publicado pela EA Sports, que foi lançado mundialmente em 28 de setembro de 2018. Este é o vigésimo sexto título principal da série FIFA e o terceiro a usar o mecanismo de jogo da Frostbite para Xbox One, PS4 e PC.', 49.99),
+('MXB0000001', 'Crazy Taxi 3: High Roller', 2002, 'Hitmaker', 4, 'Crazy Taxi 3: High Roller is the third video game in the Crazy Taxi series, and was released for the Xbox and Microsoft Windows, with also an arcade release under the name Crazy Taxi: High Roller for the Chihiro game board.', 24.99),
+('3600000001', 'Halo 3', 2007, 'Bungie', 5, 'Crazy Taxi 3: High Roller is the third video game in the Crazy Taxi series, and was released for the Xbox and Microsoft Windows, with also an arcade release under the name Crazy Taxi: High Roller for the Chihiro game board.', 39.99),
+('3600000002', 'Fallout 3', 2008, 'Bethesda Game Studios', 5, 'Fallout 3 é uma continuação do jogo de RPG eletrônico Fallout. Fallout 3, desenvolvido pela companhia de jogos de videogames e computador americana Bethesda Softworks, foi lançado em 28 de Outubro de 2008 para PC, Xbox 360 e PlayStation 3.', 39.99),
+('ONE0000001', 'FIFA 19', 2018, 'EA Sports', 6, 'FIFA 19 é um jogo eletrônico de futebol desenvolvido e publicado pela EA Sports, que foi lançado mundialmente em 28 de setembro de 2018. Este é o vigésimo sexto título principal da série FIFA e o terceiro a usar o mecanismo de jogo da Frostbite para Xbox One, PS4 e PC.', 49.99),
+('WII0000001', 'Super Mario Galaxy', 2007, 'Nintendo Entertainment Analysis & Development', 7, 'Super Mario Galaxy é um jogo eletrônico de plataforma desenvolvido pela Nintendo Entertainment Analysis & Development e publicado pela Nintendo. Ele foi lançado exclusivamente para Wii em novembro de 2007.', 19.99),
+('WII0000002', 'Super Mario Galaxy 2', 2010, 'Nintendo Entertainment Analysis & Development', 7, 'Super Mario Galaxy 2 é um jogo eletrônico do gênero de plataforma que foi desenvolvido e publicado pela Nintendo para o console Wii.', 19.99),
+('WIIU000001', 'Splatoon', 2015, 'Nintendo EAD', 8, 'Splatoon é um jogo de Vídeo-Game de tiro em terceira pessoa lançado pela Nintendo para Wii U em maio de 2015.', 29.99),
+('NSW0000001', 'Splatoon 2', 2017, 'Nintendo EAD', 9, 'Splatoon 2 é um jogo eletrônico de tiro em terceira pessoa desenvolvido pela Nintendo Entertainment Planning & Development e publicado pela Nintendo para o Nintendo Switch.', 39.99),
+('PC00000001', 'World of Warcraft', 2004, 'Blizzard Entertainment', 10, 'World of Warcraft é um jogo on-line, (MMORPG) da produtora Blizzard lançado em 2004.', 19.99),
+('PC00000002', 'The Sims 4', 2015, 'Maxis', 10, 'The Sims 4 (Os Sims 4, em Portugal) é o quarto título da franquia de jogos eletrônicos de simulação de vida The Sims, desenvolvido pela Maxis e The Sims Studio, e publicado pela Electronic Arts.', 39.99);
 
 
 /* Inserindo valores na tabela JogoHasGenero */
@@ -99,11 +99,11 @@ INSERT INTO Estoque (idJogo, quantidade) VALUES
 
 /* Inserindo dados na tabela cliente */
 
-INSERT INTO Cliente (nomeCliente, dataNascimento) VALUES
-('Lucas Novaes', '1995-03-10'),
-('Teste', '2000-01-01'),
-('Teste2', '1997-03-08'),
-('Teste3', '2009-03-06');
+INSERT INTO Cliente (nomeCliente, nomeUsuario, dataNascimento) VALUES
+('Lucas Novaes', 'lucas123', '1995-03-10'),
+('Teste', 'teste123', '2000-01-01'),
+('Teste2', 'teste2123', '1997-03-08'),
+('Teste3', 'teste3123', '2009-03-06');
 
 /* Inserindo valores na tabela emails */
 

@@ -3,6 +3,14 @@
 /* criando trigger*/
 CREATE FUNCTION jogo_gatilho() RETURNS trigger AS $jogo_gatilho$
 BEGIN
+   -- Verificar se o id literal do jogo é nulo
+   IF NEW.idJogoLiteral IS NULL THEN
+      RAISE EXCEPTION 'O id literal do jogo nao pode ser nulo';
+   END IF;
+   -- Verificar se o id literal do jogo já existe na tabela
+   IF EXISTS (SELECT idJogoLiteral FROM Jogo WHERE idJogoLiteral = NEW.ididJogoLiteral) THEN
+      RAISE EXCEPTION 'O id literal do jogo nao pode ser nulo';
+   END IF;
    -- Verificar se nome do jogo é nulo
    IF NEW.nomeJogo IS NULL THEN
       RAISE EXCEPTION 'O nome do jogo não pode ser nulo';
@@ -29,8 +37,6 @@ ON Jogo
 FOR EACH ROW EXECUTE 
 PROCEDURE jogo_gatilho();
 
-===================================================================================
-
 /* Trigger para as regras de negócio do email */
 
 CREATE FUNCTION emails_gatilho() RETURNS trigger AS $emails_gatilho$
@@ -42,6 +48,10 @@ BEGIN
    -- Verifica se o endereço de email é muito grande
    IF (LENGTH(NEW.enderecoEmail) > 128) THEN
       RAISE EXCEPTION 'O endereço de email deve ter, no máximo, 128 caracteres';
+   END IF;
+   -- Verifica se o endereço de email já existe na tabela
+   IF EXISTS (SELECT enderecoEmail FROM Emails WHERE enderecoEmail = NEW.enderecoEmail) THEN
+      RAISE EXCEPTION 'O endereço de email informado já está cadastrado';
    END IF;
    -- Verifica se o endereço de email é valido
    IF (NEW.enderecoEmail LIKE '%@%' = false) THEN
@@ -57,12 +67,22 @@ ON Emails
 FOR EACH ROW EXECUTE 
 PROCEDURE emails_gatilho();
 
-=================================================================================
-
 /* Trigger para as regras de negócido do cliente */
 
 CREATE FUNCTION cliente_gatilho() RETURNS trigger AS $cliente_gatilho$
 BEGIN
+   -- Verificar se o nome de usuário é vazio
+   IF NEW.nomeUsuario IS NULL THEN
+      RAISE EXCEPTION 'O nome de usuario não pode ser vazio';
+   END IF;
+   -- Verificar se o nome de usuário já existe
+   IF EXISTS (SELECT nomeUsuario FROM Cliente WHERE nomeUsuario = NEW.nomeUsuario) THEN
+      RAISE EXCEPTION 'O nome de usuario não pode ser vazio';
+   END IF;
+   -- Verifica se o o nome de usuário é muito grande
+   IF (LENGTH(NEW.nomeUsuario) > 128) THEN
+      RAISE EXCEPTION 'O nome de usuário deve ter, no máximo, 128 caracteres';
+   END IF;
    -- Verificar se o nome do cliente é vazio
    IF NEW.nomeCliente IS NULL THEN
       RAISE EXCEPTION 'O nome do cliente não pode ser vazio';
@@ -81,8 +101,6 @@ ON Cliente
 FOR EACH ROW EXECUTE 
 PROCEDURE cliente_gatilho();
 
-=================================================================================
-
 /* Trigger para as regras de negócido da plataforma */
 
 CREATE FUNCTION plataforma_gatilho() RETURNS trigger AS $plataforma_gatilho$
@@ -90,6 +108,10 @@ BEGIN
    -- Verificar se o nome da plataforma é vazio
    IF NEW.nomePlataforma IS NULL THEN
       RAISE EXCEPTION 'O nome da plataforma não pode ser vazio';
+   END IF;
+   -- Verificar se o nome da plataforma já existe
+   IF EXISTS (SELECT nomePlataforma FROM Plataforma WHERE nomePlataforma = NEW.nomePlataforma) THEN
+      RAISE EXCEPTION 'O nome da plataforma informado já existe';
    END IF;
    -- Verifica se o nome da plataforma é muito grande
 	   IF (LENGTH(NEW.nomePlataforma) > 64) THEN
@@ -105,8 +127,6 @@ ON Plataforma
 FOR EACH ROW EXECUTE 
 PROCEDURE plataforma_gatilho();
 
-=================================================================================
-
 /* Trigger para as regras de negócido do gênero */
 
 CREATE FUNCTION genero_gatilho() RETURNS trigger AS $genero_gatilho$
@@ -114,6 +134,10 @@ BEGIN
    -- Verificar se o nome do genero é vazio
    IF NEW.nomeGenero IS NULL THEN
       RAISE EXCEPTION 'O nome do genero não pode ser vazio';
+   END IF;
+   -- Verificar se o nome do genero já existe
+   IF EXISTS (SELECT nomeGenero FROM Genero WHERE nomeGenero = NEW.nomeGenero) THEN
+      RAISE EXCEPTION 'O genero informado já existe';
    END IF;
    -- Verifica se o nome  do genero é muito grande
 	   IF (LENGTH(NEW.nomeGenero) > 64) THEN
@@ -128,8 +152,6 @@ CREATE TRIGGER genero_Insert_Or_Update BEFORE INSERT OR UPDATE
 ON Genero
 FOR EACH ROW EXECUTE 
 PROCEDURE genero_gatilho();
-
-=================================================================================
 
 /* Trigger para as regras de negócido de jogohasgenero */
 
@@ -149,8 +171,6 @@ ON Jogohasgenero
 FOR EACH ROW EXECUTE 
 PROCEDURE jogohasgenero_gatilho();
 
-=================================================================================
-
 /* Regras de negócio para o estoque */
 
 CREATE FUNCTION estoque_gatilho() RETURNS trigger AS $estoque_gatilho$
@@ -169,8 +189,6 @@ ON Estoque
 FOR EACH ROW EXECUTE 
 PROCEDURE estoque_gatilho();
 
-=================================================================================
-
 /* Trigger para as regras de negócido do carrinho de compras */
 
 CREATE FUNCTION carrinhodecompras_gatilho() RETURNS trigger AS $carrinhodecompras_gatilho$
@@ -188,8 +206,6 @@ CREATE TRIGGER carrinhodecompras_Insert_Or_Update BEFORE INSERT OR UPDATE
 ON carrinhoDeCompras
 FOR EACH ROW EXECUTE 
 PROCEDURE carrinhodecompras_gatilho();
-
-=================================================================================
 
  /* Regras de negócio para a compra (insert or update) */
 
@@ -229,8 +245,6 @@ CREATE TRIGGER compra_insert_or_update_ BEFORE INSERT OR UPDATE
 ON Compra
 FOR EACH ROW EXECUTE 
 PROCEDURE compra_insert_or_update_gatilho();
-
-===================================================================================
 
 /* Regras de negócio para a compra (delete) */
 

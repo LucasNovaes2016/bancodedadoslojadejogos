@@ -13,6 +13,7 @@ CREATE TABLE Genero (
 
 CREATE TABLE Jogo (
   idJogo SERIAL NOT NULL,
+  idJogoLiteral VARCHAR NULL,
   nomeJogo VARCHAR NULL,
   anoLancamento INTEGER NULL,
   desenvolvedora VARCHAR NULL,
@@ -39,13 +40,14 @@ CREATE TABLE Estoque (
 CREATE TABLE Cliente (
   idCliente SERIAL NOT NULL,
   nomeCliente VARCHAR NULL,
+  nomeUsuario VARCHAR NULL,
   dataNascimento DATE NULL,
   PRIMARY KEY(idCliente)
 );
 
 CREATE TABLE Emails (
   idEmails SERIAL NOT NULL,
-  enderecoEmail VARCHAR NULL,
+  enderecoEmail VARCHAR NULL ,
   idCliente INTEGER REFERENCES Cliente,
   PRIMARY KEY(idEmails)
 );
